@@ -1,0 +1,6 @@
+  # build an executable named myprog from myprog.c
+  all: 
+ 	  gcc -g -Wall -o l2e1b lecture2_example1b.cpp
+
+  clean: 
+	  $(RM) l2e1b

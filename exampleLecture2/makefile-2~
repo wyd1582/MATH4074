@@ -1,0 +1,8 @@
+CC = g++
+LD = g++
+CFLAGS = -c -g -o
+
+
+lecture2_example1a.o: lecture2_example1a.cpp
+	g++ -c lecture2_example1a.cpp
+

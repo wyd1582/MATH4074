@@ -1,0 +1,27 @@
+Case study 1 
+psuedo code
+
+Create variables
+S0 	- spot price
+T 	- maturity
+sigma 	- volatility
+r 	- risk free rate
+q 	- continuous dividend rate
+K 	- strike price
+eta	-
+alpha	-
+N	- 2^n
+n	-
+Beta	-
+lamba	-
+define pi
+v	-
+C	- discount rate
+
+
+Y = fft(X)
+
+find K values that corresponds to K=2100
+
+
+Create X variable using calloc
