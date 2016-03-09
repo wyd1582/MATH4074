@@ -1,6 +1,9 @@
 #include <math.h>
-#include "tridiagSolver.cpp"
-#include "functions.h"
+#include <time.h>
+#include "expint.hpp"
+#include "tridiagSolver.hpp"
+
+//#include "functions.h"
 
 main(){
 
@@ -42,7 +45,7 @@ main(){
 	aA = sigma_squared(Dx,lp,ln,v) * Dt/(2 * pow(Dx,2)); //first part of Bl/Bu
 	bB = (rfr-div+omega(Dx,lp,ln,v)-0.5*pow(sigma_squared(Dx, lp, ln, v),2))*Dt/(2.0*Dx); //second part of Bl/Bu
 
-	gettimeofday(&startTime, NULL); 
+	//gettimeofday(&startTime, NULL); 
 
 	// payoff
 	for ( i = 0; i <= N; ++i){
@@ -61,15 +64,12 @@ main(){
 			L[i] = -(aA-bB);
 			D[i] =  1 + rfr*Dt + 2*aA + Dt/v*(expint(Dx*lp*(N-i)));
 			U[i] = -(aA+bB);
-			switch (i)
-			{
-			case 0:
+			if (i==0)
 				L[i] = 0;
-				break;
-			case N-1:
-				U[i] = 0;			
-				break;
-			}
+				
+			if(i==N-1)
+				U[i] = 0;							
+			
 	}
 
 	for (j = M-1; j >= 0; --j) {
@@ -96,11 +96,11 @@ main(){
 	delete [] W;
 	delete [] x;
 
-	gettimeofday(&endTime, NULL); 
-	seconds = endTime.tv_sec - startTime.tv_sec; 
+//	gettimeofday(&endTime, NULL); 
+/*	seconds = endTime.tv_sec - startTime.tv_sec; 
 	useconds = endTime.tv_usec - startTime.tv_usec; 
 	mtime = ((seconds) * 1000 + useconds/1000.0); 
-	cout << "Time elapsed was: " << mtime << " (milliseconds)" << endl;
+	cout << "Time elapsed was: " << mtime << " (milliseconds)" << endl;*/
 
 	return 0;
 }
