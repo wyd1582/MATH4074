@@ -4,7 +4,7 @@ CFLAGS = -c -g -O
 FLAGS = -Wall -pedantic
 LIBS = -ldl
 
-PROG_OBJS = expint.cpp tridiagSolver.cpp CS2.cpp
+PROG_OBJS = expint.cpp tridiagSolver.cpp CS2_tk2663.cpp
 
 TGTS = prog.out
 

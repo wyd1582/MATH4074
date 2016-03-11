@@ -1,12 +1,12 @@
 #include <math.h>
-#include <time.h>
+#include <sys/time.h> 
 #include "expint.hpp"
 #include "tridiagSolver.hpp"
 
 int main(){
-	//struct timeval startTime, endTime; 
-	//long seconds, useconds; 
-	//double mtime;
+	struct timeval startTime, endTime; 
+	long seconds, useconds; 
+	double mtime;
 	double   *L, *D, *U, *W, *x; //
     double   *Integral1,*Integral2,*Integral3,*Integral4; //variables for Right Hand Side
 	double   aA, bB; //part1 and part2 of Lower and Upper diagonals
@@ -49,7 +49,7 @@ int main(){
 	aA = sigma_squared * Dt/(2 * pow(Dx,2)); //first part of Bl or Bu
 	bB = (rfr-div+omega-0.5*sigma_squared)*Dt/(2.0*Dx); //second part of Bl or Bu
 
-	//gettimeofday(&startTime, NULL); 
+	gettimeofday(&startTime, NULL); 
 
 	// payoff
 	for ( i = 0; i <= N; ++i){
@@ -124,6 +124,12 @@ int main(){
     delete [] Integral2;
     delete [] Integral3;
     delete [] Integral4;
+
+	gettimeofday(&endTime, NULL); 
+	seconds = endTime.tv_sec - startTime.tv_sec; 
+	useconds = endTime.tv_usec - startTime.tv_usec; 
+	mtime = ((seconds) * 1000 + useconds/1000.0); 
+	cout << "Time elapsed was: " << mtime << " (milliseconds)" << endl;
 
 	return 0;
 }

@@ -1,10 +1,11 @@
 CC = g++
 LD = g++
-CFLAGS = -c -g -O 
-FLAGS = -Wall -pedantic
+#CFLAGS = -c -g -ggdb -O 
+#FLAGS = -Wall -pedantic
+FLAGS =-g -ggdb -Wall -pedantic -O
 LIBS = -ldl
 
-PROG_OBJS = expint.cpp tridiagSolver.cpp CS2_tk2663.cpp
+PROG_OBJS = expint.cpp tridiagSolver.cpp CS2_2.cpp
 
 TGTS = prog.out
 
