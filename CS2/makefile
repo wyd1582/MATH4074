@@ -5,7 +5,7 @@ LD = g++
 FLAGS =-g -ggdb -Wall -pedantic -O
 LIBS = -ldl
 
-PROG_OBJS = expint.cpp tridiagSolver.cpp CS2_2.cpp
+PROG_OBJS = expint.cpp tridiagSolver.cpp CS2_3.cpp
 
 TGTS = prog.out
 

@@ -98,7 +98,7 @@ int main(){
     for ( i = 0; i <= N; ++i){
         W[i]+=Integral1[i]+Integral2[i]+Integral3[i]+Integral4[i];
     }   
-    
+
 	for (j = M-1; j >= 0; --j) {
 		tridiagSolver(L, D, U, W, N-1);
 	}

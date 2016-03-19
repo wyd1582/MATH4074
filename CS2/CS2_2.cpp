@@ -1,15 +1,12 @@
-
 #include <math.h>
-#include <sys/time.h> 
+#include <sys/time.h>
 #include "expint.hpp"
 #include "tridiagSolver.hpp"
 
 int main(int argc,char **argv){
-
 	struct timeval startTime, endTime; 
 	long seconds, useconds; 
 	double mtime;
-
 	double   *L, *D, *U, *W, *x;
 	double   aA, bB;
 	double   ps0;
@@ -25,7 +22,6 @@ int main(int argc,char **argv){
 	double 	 v=0.17;
 	
 	double   sMin = 1000.0, sMax = 2000.0;
-
 	int      N=4000;
 	int      M=1000;
 
@@ -35,7 +31,6 @@ int main(int argc,char **argv){
 	double ln = sqrt(pow(theta,2)/pow(sig,4)+2/(v*pow(sig,2)))+theta/pow(sig,2);
 	double sigma_squared = 1/v * ((1/pow(lp,2)*(1-exp(-lp*Dx)*(1+lp*Dx)))+(1/pow(ln,2)*(1-exp(-ln*Dx)*(1+ln*Dx))));
 	double omega = 1/v *((expint(lp*Dx)-expint(Dx*(lp-1)))+(expint(ln*Dx)-expint(Dx*(ln-1))));
-
 
 	L = new double[N];
 	D = new double[N];
@@ -51,7 +46,6 @@ int main(int argc,char **argv){
 	bB = (rfr-div+omega-0.5*sigma_squared)*Dt/(2.0*Dx); //second part of Bl or Bu
 
 	gettimeofday(&startTime, NULL); 
-
 	// payoff
 	for ( i = 0; i <= N; ++i){
         Integral1[i]=0.0; //set all values to zero
@@ -70,7 +64,8 @@ int main(int argc,char **argv){
 	for (i = 1; i <=N-1; ++i){
 			L[i] = -(aA-bB);
 			//D[i] =  1 + rfr*Dt + 2*aA + Dt/v*(expint(Dx*lp*(N-i)));
-            D[i] =  1 + rfr*Dt + 2*aA;
+            //D[i] =  1 + rfr*Dt + 2*aA;
+            D[i] =  1 + rfr*Dt + 2*aA + Dt/v*(expint(Dx*lp*(N-i))+expint(i*Dx*ln));
             U[i] = -(aA+bB);
             if(i==1){
                 L[i]=0;
@@ -93,12 +88,12 @@ int main(int argc,char **argv){
                                 1/Dx*(W[i-k-1]-W[i-k])*(exp(-ln*k*Dx)-exp(-ln*(k+1)*Dx)));            
         }       
     }  
-    
+
     //add W and right hand side
     for ( i = 0; i <= N; ++i){
         W[i]+=Integral1[i]+Integral2[i]+Integral3[i]+Integral4[i];
     } 
-
+ 
 	for (j = M-1; j >= 0; --j) {
         tridiagSolver(L, D, U, W, N-1);
 	}
@@ -110,9 +105,8 @@ int main(int argc,char **argv){
 			break;
 		}
 	}
-
+	
 	ps0 = W[ir-1] + ((W[ir]-W[ir-1])/Dx)*(log(S0)-x[ir-1]);
-
 
 	cout << "Stock Price " << S0  << endl;
 	cout << "Put Value   " << ps0 << "\n" << endl;
