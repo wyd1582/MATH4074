@@ -1,6 +1,6 @@
 #!/bin/ksh
 
-BASEDIR=/mnt/nas/shared/progQuantCompFinance/exampleKornShell
+BASEDIR=/home/tjisana/MATH4074/exampleKornShell
 
 
 YEAR=`/bin/date +%Y`
@@ -25,12 +25,13 @@ then
 	exit 1
 fi
 
+echo $LIST
 # launching all programs
 for item in $LIST
 do
-	MARKET=`/bin/echo $item | /bin/cut -d, -f1`
-	SYMBOL=`/bin/echo $item | /bin/cut -d, -f2`
-	PRICE=`/bin/echo $item | /bin/cut -d, -f3`
+	MARKET=`/bin/echo $item | /usr/bin/cut -d, -f1`
+	SYMBOL=`/bin/echo $item | /usr/bin/cut -d, -f2`
+	PRICE=`/bin/echo $item | /usr/bin/cut -d, -f3`
 	
 	echo "Launch $MARKET for symbol=$SYMBOL"
 	
