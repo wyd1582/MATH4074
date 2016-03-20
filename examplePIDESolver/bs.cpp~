@@ -2,8 +2,6 @@
 //#include "functions.h"
 #include <math.h>
 #include <sys/time.h>
-#include "expint.hpp"
-#include "tridiagSolver.hpp"
 
 main(){
 

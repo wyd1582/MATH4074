@@ -151,6 +151,9 @@ int main()
 
 		}
 
+		endTime = clock();		
+		cout << "time " << ((float)(endTime - startTime)) / CLOCKS_PER_SEC<<endl;
+
 		tridiagSolver(lowerDiagonal, diagonal, upperDiagonal, w_adjusted, n_spatial_intervals - 1);
 		for (int index = 0; index <= n_spatial_intervals; index++)
 		{ //By the boundary conditions
