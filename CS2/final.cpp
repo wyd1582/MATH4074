@@ -25,6 +25,8 @@ int main(int argc,char **argv){
 	int      N=4000;
 	int      M=1000;
 
+	double 		g[6][N+1];
+
 	Dx = (log(sMax)-log(sMin))/N;
 	Dt = T/M;
 	double lp = sqrt(pow(theta,2)/pow(sig,4)+2/(v*pow(sig,2)))-theta/pow(sig,2);
@@ -36,30 +38,29 @@ int main(int argc,char **argv){
 	D = new double[N];
 	U = new double[N];
 	W = new double[N+1];
-	x = new double[N+1];
-	double *Integral1 = new double[N+1];
-	double *Integral2 = new double[N+1];
-	double *Integral3 = new double[N+1];
-	double *Integral4 = new double[N+1];
+	x = new double[N+1];	
 	double *w_adjusted = new double[N+1];
 
 	aA = sigma_squared * Dt/(2 * pow(Dx,2)); //first part of Bl or Bu
 	bB = (rfr-div+omega-0.5*sigma_squared)*Dt/(2.0*Dx); //second part of Bl or Bu
 
 	gettimeofday(&startTime, NULL); 
-	// payoff
-	for ( i = 0; i <= N; ++i){
-        Integral1[i]=0.0; //set all values to zero
-        Integral2[i]=0.0; //set all values to zero
-        Integral3[i]=0.0; //set all values to zero
-        Integral4[i]=0.0; //set all values to zero
+	// populate payoff and 6 precalculated vectors
 
+	for ( i = 0; i <= N; ++i){
 		x[i] = log(sMin)+i*Dx;
 
 		if(exp(x[i])<K)
 			W[i] = K-exp(x[i]);
 		else
 			W[i] = 0.0;
+
+		g[0][i]=exp(k*Dx*ln);
+		g[1][i]=exp(k*Dx*lp);
+		g[2][i]=expint(ln*k*Dx);
+		g[3][i]=expint(lp*k*Dx);
+		g[4][i]=expint((ln+1)*k*Dx);
+		g[5][i]=expint((lp+1)*k*Dx);
 	}
 
 for (i = 1; i <=N-1; ++i){
@@ -75,40 +76,33 @@ for (i = 1; i <=N-1; ++i){
 		}
 		else{
 			L[i] = -(aA-bB);
-			D[i] =  1 + 2.0*aA + rfr*Dt;
+			D[i] =  1 + 2.0*aA + rfr*Dt + Dt/v*(g[2][i]+g[3][N-i]);
 			U[i] = -(aA+bB);
 		}
 	}
+
+
     for (j = M-1; j >= 0; --j) {
-        
-    //populate values for right hand side(4 Integral terms)
-    for (i=1;i<=N-1;i++){
+    	
+    	for (i = 1; i <=N-1; ++i)
+    	{
+    		double rhs=0;
+    		for (k = 1; k <= i-1; ++k)
+    			{
+    				rhs+=(W[i-k]-W[i]-k*(W[i-k-1]-W[i-k]))*(g[2][k]-g[4][k+1]);
+    				rhs+=1/(ln*Dx)*(W[i-k-1]-W[i-k])*(g[0][k]-g[0][k+1]);
+    			}
+			for (k = 1; k <= N-i-1; ++k)
+    			{
+    				rhs+=(W[i+k]-W[i]-k*(W[i+k+1]-W[i+k]))*(g[3][k]-g[5][k+1]);
+    				rhs+=1/(lp*Dx)*(W[i+k+1]-W[i+k])*(g[1][k]-g[1][k+1]);
+    			}
+			rhs+=K*g[2][i]-exp(x[i])*g[4][i];
+			W[i]+=rhs;
+    	}
+		tridiagSolver(L, D, U, W, N-1);
 
-			double term1, term2, term3, term4;
-			term1 = 0;
-			term2 = 0;
-			term3 = 0;
-			term4 = 0;
-			for (int k = 1; k <= i - 1; k++)
-			{
-				term1 +=(W[i - k] - W[i] - k*(W[i - k - 1] - W[i - k]))*(expint(k*lp*Dx) - expint((k+1)*lp*Dx));
-				term2 +((W[i - k - 1] - W[i - k]) / (ln*Dx))*(exp(-k*Dx*ln) - exp(-Dx*ln*(k+1)));
-			}
-			for (int k = 1; k <= N - i - 1; k++)
-			{
-				term3 +=(W[i + k] - W[i] - k*(W[i + k + 1] - W[i + k]))*(expint(k*lp*Dx) - expint((k+1)*lp*Dx));
-				term4 +=((W[i + k + 1] - W[i + k]) / (lp*Dx))*(exp(-k*Dx*ln) - exp(-Dx*ln*(k+1)));
-			}
-		       w_adjusted[i] = W[i] + (Dt / v)*(term1 + term2 + term3 + term4);
-    }
-	tridiagSolver(L, D, U, w_adjusted, N-1);
- 	gettimeofday(&endTime, NULL); 
-	seconds = endTime.tv_sec - startTime.tv_sec; 
-	useconds = endTime.tv_usec - startTime.tv_usec; 
-	mtime = ((seconds) * 1000 + useconds/1000.0); 
-	cout << "Time elapsed was: " << mtime << " (milliseconds)" << endl;
-
-}
+	}
 
 	//
 	for(i = 0; i <= N-1; ++i){
@@ -128,10 +122,6 @@ for (i = 1; i <=N-1; ++i){
 	delete [] U;
 	delete [] W;
 	delete [] x;
-	delete [] Integral1;
-	delete [] Integral2;
-	delete [] Integral3;
-	delete [] Integral4;
 
 	gettimeofday(&endTime, NULL); 
 	seconds = endTime.tv_sec - startTime.tv_sec; 
