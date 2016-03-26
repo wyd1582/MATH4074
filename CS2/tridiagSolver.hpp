@@ -14,7 +14,5 @@
 using namespace std;
 
 void tridiagSolver(double *lowerD, double *diag, double *upperD, double *B, int nSize);
-double sigma_squared(double Delta_x,double lambda_p, double lambda_n,double nu);
-double omega(double Delta_x, double lambda_p, double lambda_n, double nu);
 
 #endif
