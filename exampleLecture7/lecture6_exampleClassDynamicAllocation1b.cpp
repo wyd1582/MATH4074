@@ -6,7 +6,7 @@
 #include <math.h>
 
 // ===========================================
-// Class Example - Dynamic Allocation 
+// Call Example - Dynamic Allocation 
 
 // Case 1: Note that for this case size1&size2 
 //         are declared PUBLIC
@@ -61,20 +61,13 @@ int main()
 {
 	int size1 = 20;
 	int size2 = 30;
-	arraysClass arrays1(size1, size2);
-	
-	//Note The next two lines 
-	//arrays1.size1 = size1;
-	//arrays1.size2 = size2;
-	
-	//arraysClass arrays2 = arrays1;
+	arraysClass arrays(size1, size2);
 
-	builder1(arrays1, size1, size2);
-	//builder1(arrays2, size1, size2);
+	builder1(arrays, size1, size2);
 
 	//Note The next two lines 
-	arrays1.size1 = size1;
-	arrays1.size2 = size2;
+	arrays.size1 = size1;
+	arrays.size2 = size2;
 
 	return 1;
 }

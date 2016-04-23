@@ -10,8 +10,6 @@ typedef complex<double> dcmplx;
 #define PI  3.1415926535897932
 
 void FFT_calculate(dcmplx* x, int N, int skip, dcmplx* X, dcmplx* D, dcmplx* twiddles) {
-  printf("START FFT_calculate\n");
-  printf("PARAMS %p %d %d %p %p %p\n",x, N, skip, X, D, twiddles); 
   dcmplx * E = D + N/2;
   int k;
 
@@ -20,13 +18,8 @@ void FFT_calculate(dcmplx* x, int N, int skip, dcmplx* X, dcmplx* D, dcmplx* twi
     return;
   }
 
-  // use X as a scratch buffer
-  printf("START FIRST INNER FFT_calculate\n");
-  printf("PARAMS %p %d %d %p %p %p\n",x, N/2, skip*2, E, X, twiddles);  
+  // use X as a scratch buffer 
   FFT_calculate(x, N/2, skip*2, E, X, twiddles);
-
-  printf("START SECOND INNER FFT_calculate\n");
-  printf("PARAMS %p %d %d %p %p %p\n",x + skip, N/2, skip*2, D, X, twiddles);
   FFT_calculate(x + skip, N/2, skip*2, D, X, twiddles);
 
   for(k = 0; k < N/2; k++) {

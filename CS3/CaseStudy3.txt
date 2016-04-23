@@ -1,0 +1,17 @@
+Please find 10 files in this zip file
+makefile will create the CS3.out file with the parameters specified (cs3.cpp)
+Number of SimulatedPath=500000,Number of TimeSteps=100;
+makefile can also create an alternative CS3.out which combines the use of command line parameters and a Korn shell script to vary the Number of Simulated Paths and Number of Time Steps(cs3args.cpp)
+
+
+
+Simulated paths	    Time Steps	  Price	Time(seconds)
+         100000	            50		46.1938	        1.426
+         200000		    50		45.9013	        2.821
+         500000		    50		45.7402	        7.491
+        1000000		    50		45.5928	       15.152
+         500000		    10		45.5315	        1.433
+         500000		    20		45.6987	        2.999
+         500000		    50		45.7402	        7.319
+         500000		   100		45.4962	       15.859
+

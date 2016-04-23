@@ -1,0 +1,4 @@
+1)I used the framework of the bs.cpp and added/changed variables as needed. 
+2)A variable was created for pre-calculation vector (KEY STEP)
+3)The tridiagonal solver function must be updated for every iteration of a new RHS(right hand side
+4)The program takes roughly 50 seconds to run, and calculates the correct Put price of $45.58

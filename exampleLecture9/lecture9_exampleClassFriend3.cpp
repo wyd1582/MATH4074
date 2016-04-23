@@ -6,8 +6,8 @@
 
 using namespace std;
 
-// class example 
-// friend class
+// Class example 
+// Friend class
 
 
 class Rectangle {

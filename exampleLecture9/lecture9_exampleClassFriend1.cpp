@@ -6,8 +6,8 @@
 
 using namespace std;
 
-// class example 
-// friend class
+// Class example 
+// Friend class
 
 
 class Square; // forward declaration of Square needed by Rectangle
@@ -21,11 +21,20 @@ public:
 		return (width * height);
 	}
 	void convert (Square a);
+	friend Rectangle duplicate (const Rectangle&);
 };
 
-void Rectangle::convert (Square a) {
-	width = a.side;
-	height = a.side;
+//void Rectangle::convert (Square a) {
+//	width = a.side;
+//	height = a.side;
+//}
+
+Rectangle duplicate (const Rectangle& param)
+{
+	Rectangle res;
+	res.width = param.width*2;
+	res.height = param.height*2;
+	return res;
 }
 
 class Square {
@@ -37,14 +46,19 @@ public:
 };
 
 // has to be here 
-//void Rectangle::convert (Square a) {
-//	width = a.side;
-//	height = a.side;
-//}
+void Rectangle::convert (Square a) {
+	width = a.side;
+	height = a.side;
+}
 
 
 int main() 
 {
+
+	Rectangle foo;
+	Rectangle bar (2,3);
+	foo = duplicate (bar);
+	cout << "rectangle foo.area():" << foo.area() << endl;
 
 	Rectangle rect;
 	cout << "rectangle area:" << rect.area() << endl;
