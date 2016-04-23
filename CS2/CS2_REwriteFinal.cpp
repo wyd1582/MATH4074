@@ -71,10 +71,6 @@ int main(int argc,char **argv){
 		}		
 
 	}
-
-	double Bl = (aA - bB);
-	double Bu = (aA + bB);
-	double r = rfr;
 	for (i = 1; i <=N-1; ++i){
 		if (i==1){			
 			D[i] = 1 + 2.0*aA + rfr*Dt - (aA-bB)*       2.0/(1.0+Dx/2.0);
