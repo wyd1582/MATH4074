@@ -96,7 +96,7 @@ namespace BT{
 		//optimization begins
 		for(cnt=0; cnt<iterations; ++cnt){
 
-			cout << "iter=" << cnt << " ";
+			//cout << "iter=" << cnt << " ";
 
 			for(int i=0;i<nN+1;++i){
 				vf[i]= f(x[i]);
@@ -147,7 +147,7 @@ namespace BT{
 			}
 
 			// reflection:
-			cout << "reflection ";
+			//cout << "reflection ";
 			std::vector<D> xr(nN,0); 
 
 			for( int i=0; i<nN; ++i)
@@ -161,7 +161,7 @@ namespace BT{
 
 			// expansion:
 			else if(fxr<vf[x1]){
-				cout << "expansion ";
+				//cout << "expansion ";
 				std::vector<D> xe(nN,0);
 				for( int i=0; i<nN; ++i)
 					xe[i]=xr[i]+b*(xr[i]-xg[i]);
@@ -173,7 +173,7 @@ namespace BT{
 
 			// contraction:
 			else if( fxr > vf[xn] ){
-				cout << "contraction ";
+				//cout << "contraction ";
 				std::vector<D> xc(nN,0);
 				for( int i=0; i<nN; ++i)
 					xc[i]=xg[i]+g*(x[xnp1][i]-xg[i]);
@@ -191,7 +191,7 @@ namespace BT{
 				}
 			} //contraction finished, xc is not used outside the scope
 
-			cout << endl;
+			//cout << endl;
 
 		}//optimization is finished
 

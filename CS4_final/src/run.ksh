@@ -1,5 +1,5 @@
 #!/bin/ksh
-BASEDIR=/home/tjisana/MATH4074/CS4
+BASEDIR=/home/tjisana/MATH4074/CS4_final
 
 
 YEAR=`/bin/date +%Y`

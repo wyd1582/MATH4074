@@ -42,8 +42,8 @@ vector<double> init(3,0.0);
 vector<double> initguess(3,0.0);
 
 int readfromFile(string Fname,int &Tcnt,int &Kcnt,double* &readT,double* &readK,double* &readP);
-int CP_FFT(double K,double T,double sigma,double mu,double theta);
-int RMS(vector<double> x);
+double CP_FFT(double K,double T,double sigma,double mu,double theta);
+
 int getinitialguess(int startKP,int startT);
 
 template<class Con>
@@ -58,29 +58,11 @@ void printcon(const Con& c){
 
 int main(int argc, char** argv){
 
- 	readfromFile(argv[1],readTcnt,readKcnt,readTarr,readKarr,readParr);
-  readPcnt = readKcnt; // readPcnt and readKcnt will have the same value
-  n=readKcnt/readTcnt;
-
-  //initialize    
-    step = 2;
-    sigArray = new double[step];  
-    sigArray[0]=0.05;sigArray[step-1]=0.5;
-
-    muArray = new double[step];   
-    muArray[0]=0.05;muArray[step-1]=0.75;
-
-    thetaArray = new double[step];    
-    thetaArray[0]=-0.9;thetaArray[step-1]=-0.05;
-
-//fill arrays  
-  for(int i=1;i<step-1;i++){
-    sigArray[i] =sigArray[0] + i*(sigArray[step-1] - sigArray[0])/(step-1);
-    muArray[i] = muArray[0] + i*(muArray[step-1] - muArray[0])/(step-1);
-    thetaArray[i] = thetaArray[0] + i*(thetaArray[step-1] - thetaArray[0])/(step-1);
-  }
-
-  getinitialguess(0,0);
+  cout<<CP_FFT(100.0,0.25,0.23011,0.310068,-0.739847)<<endl;
+  cout<<CP_FFT(104.0,0.25,0.23011,0.310068,-0.739847)<<endl;
+  cout<<CP_FFT(108.0,0.25,0.23011,0.310068,-0.739847)<<endl;
+  cout<<CP_FFT(110.0,0.25,0.23011,0.310068,-0.739847)<<endl;
+  cout<<CP_FFT(113.0,0.25,0.23011,0.310068,-0.739847)<<endl;
 
   delete[] readTarr;
   delete[] readKarr;
@@ -144,7 +126,7 @@ int readfromFile(string Fname,int &Tcnt,int &Kcnt,double* &readT,double* &readK,
 }
 
 //function that generates Call Premium for VG model using FFT
-int CP_FFT(double K,double T,double sigma,double mu,double theta){
+double CP_FFT(double K,double T,double sigma,double mu,double theta){
   double S0 = 100.0;  
   double r=0.005;
   double q=0.0125;  
@@ -176,41 +158,3 @@ int CP_FFT(double K,double T,double sigma,double mu,double theta){
   return CP;
 }
 
-//Root Mean Square
-double RMS(vector<double> x){    
-  double result=0;
-  for(int i=0;i<n;i++){   
-    result+=pow(abs(Prem[i] - CP_FFT(K[i],T,x[0],x[1],x[2])),p);
-  }  
-  return pow(result/n,(1.0/p));
-}
-
-int getinitialguess(int startKP,int startT){
-  double largetemp=1000000;
-  double result=0;
-
-  T = readTarr[startT];
-  for(int i=0;i<n;i++){
-    Prem[i] = readParr[startKP];
-    K[i] = readKarr[startKP];
-    startKP++;
-  }
-
-  for(int i=0;i<step;i++)
-      for(int j=0;j<step;j++)
-        for(int k=0;k<step;k++){
-          init[0] = sigArray[i];
-          init[1] = muArray[j];
-          init[2] = thetaArray[k];          
-          result = RMS(init);
-          if(result<largetemp){
-            largetemp=result;           
-            initguess[0] = sigArray[i];
-            initguess[1] = muArray[j];
-            initguess[2] = thetaArray[k];            
-          }
-        }
-  cout<<"Initial guess "<<initguess[0]<<" "<<initguess[1]<<" "<<initguess[2]<<endl;  
-  printcon( Simplex(RMS, initguess, 1e-8) );
-  return 0;
-}

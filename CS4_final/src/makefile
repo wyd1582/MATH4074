@@ -6,7 +6,7 @@ FLAGS =-g -ggdb -Wall -pedantic -O
 LIBS = -ldl
 BIN = ../bin
 
-PROG_OBJS = CS4submit.cpp CS4.cpp FFT.cpp FFT_calculate.cpp FFT_get_twiddle_factors.cpp IFFT.cpp
+PROG_OBJS = CS4.cpp FFT.cpp FFT_calculate.cpp FFT_get_twiddle_factors.cpp IFFT.cpp
 
 TGTS = CS4.out
 
