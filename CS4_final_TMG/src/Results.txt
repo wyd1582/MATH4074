@@ -1,0 +1,28 @@
+Initial guess 0.3 0.361111 -0.616667
+terminating the optimizer
+Results for T = 0.25 : sigma 0.23011 mu 0.310068 theta -0.739847
+USING results to calculate premiums
+Strike 100 Premium 7.43291
+Strike 104 Premium 5.17967
+Strike 108 Premium 3.25782
+Strike 110 Premium 2.4397
+Strike 113 Premium 1.4172
+Initial guess 0.1 0.438889 -0.616667
+terminating the optimizer
+Results for T = 0.5 : sigma 0.219858 mu 0.439869 theta -0.530186
+USING results to calculate premiums
+Strike 100 Premium 9.35352
+Strike 105 Premium 6.72375
+Strike 109 Premium 4.90945
+Strike 111 Premium 4.10559
+Strike 115 Premium 2.7162
+Initial guess 0.05 0.438889 -0.522222
+terminating the optimizer
+Results for T = 0.75 : sigma 0.239995 mu 0.619963 theta -0.340009
+USING results to calculate premiums
+Strike 100 Premium 9.8771
+Strike 106 Premium 6.8642
+Strike 110 Premium 5.16828
+Strike 115 Premium 3.42522
+Strike 120 Premium 2.11989
+131587 milliseconds
